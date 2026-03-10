@@ -21,10 +21,10 @@ public class Todo {
         this.createdAt = createdAt;
     }
 
-    public Todo(Long id, String title, String description) {
-        this.id = id;
+    public Todo(String title, String description, TodoStatus status) {
         this.title = title;
         this.description = description;
+        this.status = status;
     }
 
     public Long getId() {

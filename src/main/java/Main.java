@@ -1,40 +1,77 @@
+import service.TodoService;
+
 import java.sql.CallableStatement;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        // JDBC : Java Database C
-        //
-        // 1- Create database Connection  Connection con = DriverManager.getConnection("jdbc:mysql:..., "username","password")
-        // 2- Create statement Object
-        // (Statements in JDBC: statement, PreparedStatement, Callable
+        TodoService service = new TodoService();
 
-        //  Statement satement = con.createStatment():
-        // // select * from students; stament.executeQuery();
-        // 3- Execute SQL query
-        // 4- Process the result
-        // 5- Close connection
+        try ( Scanner scanner = new Scanner(System.in)){
+            boolean running = true;
+            while (running){
+              printMenu();
+                System.out.println("Choose an option: ");
+                int choice;
 
-        String username = "user420";
-        String password = "'1234";
-        String query = "SELECT * from users WHERE username = "+username + " AND password= "+ password;
 
-        // admin
-        // paswrod '1234"
-        //  "SELECT * from users WHERE username=? AND password= ?";
+                try {
+                    choice = Integer.parseInt(scanner.nextLine());
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid input. Please enter a valid number");
+                    continue;
+                }
 
-        // CREATE FUNCtion get-student() RETURNS TABLE(id INT, name TEXT):
+                switch (choice) {
 
-        // A  to B
+                    case 1 :
+                        System.out.println("Please enter todo title");
+                        String title = scanner.nextLine();
+                        System.out.println("Please enter todo description");
+                        String description = scanner.nextLine();
+                        service.createTodo(title,description);
+                        break;
+                    case 2:
+                       service.showAllTodos();
+                        break;
 
-        //  A- 500 Deduct  success  ()
+                    case 3:
+                        System.out.println("Will be impl soon");
+                        break;
 
-        // B+ 500 Add  fails
+                    case 4:
+                        System.out.println("Enter the ID of the todo to delete: ");
+                        Long id = scanner.nextLong();
+                        service.deleteTodo(id);
+                        break;
 
-        // commit();
-        // rollback()
-// transaction is a sequence of database operations that must be completed entirely or not al all.
+                    case 5:
+                        System.out.println("Will be impl soon");
+                        break;
 
-        // ACDI
+                    case 6 :
+                        running = false;
+                        System.out.println("Exiting application. Good bye");
+                    default:
+                        System.out.println(" Invalid choice.PLease select an option between i and 6 ");
 
+                }
+
+            }
+
+        }
+
+
+    }
+
+
+    public static void printMenu(){
+        System.out.println("--MAIN MENU----");
+        System.out.println("1. Add a new Todo");
+        System.out.println("2. List all Todos");
+        System.out.println("3. Update a todo");
+        System.out.println("4. Delete a todo");
+        System.out.println("5. Mark a Todo as completed");
+        System.out.println("6. Exit application.");
     }
 }

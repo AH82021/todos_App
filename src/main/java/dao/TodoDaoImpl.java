@@ -64,7 +64,7 @@ public class TodoDaoImpl implements TodoDao{
               String title = resultSet.getString("title");
               String description = resultSet.getString("description");
               String status = resultSet.getString("status");
-              Timestamp createAt = resultSet.getTimestamp("create_at");
+              Timestamp createAt = resultSet.getTimestamp("created_at");
 
               Todo todo = new Todo(id, title,description, TodoStatus.valueOf(status),createAt);
               todos.add(todo);
