@@ -1,3 +1,4 @@
+import model.TodoStatus;
 import service.TodoService;
 
 import java.sql.CallableStatement;
@@ -36,17 +37,51 @@ public class Main {
                         break;
 
                     case 3:
-                        System.out.println("Will be impl soon");
+                        System.out.println("Enter the ID of the Todo to update: ");
+                        Long updateId = readLongInput(scanner);
+                        if(updateId == null){
+                            break;
+                        }
+
+
+
+                        System.out.println("Enter new title: ");
+
+                        String newTitle = scanner.nextLine();
+
+                        System.out.println("Enter new description: ");
+
+                        String newDesc = scanner.nextLine();
+
+                        System.out.println("Enter new status (1 for PENDING, 2 for COMPLETED");
+
+                        String statusChoice = scanner.nextLine();
+//                         if(statusChoice.equals("1")){
+//                             TodoStatus newStatus = TodoStatus.PENDING;
+//                         }else if(statusChoice.equals("2")){
+//                             TodoStatus newStatus = TodoStatus.COMPLETED;
+//                         }
+
+                        TodoStatus newStatus = statusChoice.equals("2")  ?  TodoStatus.COMPLETED   : TodoStatus.PENDING;
+
+                        service.updateTodo(updateId,newTitle,newDesc,newStatus);
+
+
                         break;
 
                     case 4:
                         System.out.println("Enter the ID of the todo to delete: ");
-                        Long id = scanner.nextLong();
+                        Long id = readLongInput(scanner);
                         service.deleteTodo(id);
                         break;
 
                     case 5:
-                        System.out.println("Will be impl soon");
+                        System.out.println("Enter the ID of the Todo to mark as completed: ");
+                        Long completedId = readLongInput(scanner);
+
+                        if(completedId != null){
+                            service.completeTodo(completedId);
+                        }
                         break;
 
                     case 6 :
@@ -73,5 +108,14 @@ public class Main {
         System.out.println("4. Delete a todo");
         System.out.println("5. Mark a Todo as completed");
         System.out.println("6. Exit application.");
+    }
+
+    private static Long readLongInput(Scanner scanner){
+        try {
+            return Long.parseLong(scanner.nextLine());
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid ID format. Please enter a valid number.");
+            return null;
+        }
     }
 }
